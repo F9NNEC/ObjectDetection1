@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import cv2
 import cvzone
+import math
 
 cap = cv2.VideoCapture(0) #0 jika hanya ada 1 webcam, else 1
 cap.set(3, 1280) #width
@@ -28,6 +29,11 @@ while True:
             w,h = x2-x1,y2-y1 # widht,height
             cvzone.cornerRect(img,(x1,y1,w,h))
             print(x1,y1,w,h)
+
+            confidence = (math.ceil(box.conf[0]*100))/100 # 0-1
+            print(confidence)
+
+            cvzone.putTextRect(img, f'{confidence}',(max(0, x1), max(50, y1-20)))
 
     cv2.imshow("image", img)
     cv2.waitKey(1)
